@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Typography — vintage neobrutalism */
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Archivo Black", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
+
+  /* Palette — exact tokens from design system */
+  --color-background: #F4E9D2;      /* warm cream paper */
+  --color-paper: #EFE3C6;            /* paper mid */
+  --color-paper-dark: #E5D5AE;       /* paper deep */
+  --color-foreground: #1A1A1A;       /* ink */
+  --color-primary: #1A1A1A;          /* ink as primary */
+  --color-on-primary: #F4E9D2;
+
+  --color-mustard: #E8B83C;
+  --color-accent: #E8B83C;
+  --color-on-accent: #1A1A1A;
+
+  --color-orange: #D2691E;           /* burnt orange */
+  --color-on-orange: #F4E9D2;
+
+  --color-teal: #4A8B8B;             /* dusty teal */
+  --color-secondary: #4A8B8B;
+  --color-on-secondary: #F4E9D2;
+
+  --color-brick: #B33A28;            /* brick red */
+  --color-destructive: #B33A28;
+  --color-on-destructive: #F4E9D2;
+
+  --color-olive: #6B6438;
+
+  --color-muted: #EFE3C6;
+  --color-border: #1A1A1A;           /* ALWAYS solid black */
+  --color-ring: #1A1A1A;
+}
+
+/* Paper texture — subtle ink specks on warm cream */
+.bg-paper {
+  background-color: var(--color-background);
+  background-image:
+    radial-gradient(rgba(26, 26, 26, 0.06) 1px, transparent 1px),
+    radial-gradient(rgba(26, 26, 26, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px, 17px 17px;
+  background-position: 0 0, 9px 13px;
+}
+
+/* Diagonal pinstripes used as photo-frame fills in the hero */
+.bg-stripes-teal {
+  background-color: var(--color-teal);
+  background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.18) 0 2px, transparent 2px 10px);
+}
+.bg-stripes-mustard {
+  background-color: var(--color-mustard);
+  background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.18) 0 2px, transparent 2px 10px);
+}
+.bg-stripes-brick {
+  background-color: var(--color-brick);
+  background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.22) 0 2px, transparent 2px 10px);
+}
+
+/* Hard offset shadow utilities — toned down for a softer neobrutalism */
+.shadow-brutal-sm { box-shadow: 2px 2px 0 0 #1A1A1A; }
+.shadow-brutal    { box-shadow: 3px 3px 0 0 #1A1A1A; }
+.shadow-brutal-lg { box-shadow: 5px 5px 0 0 #1A1A1A; }
+.shadow-brutal-xl { box-shadow: 7px 7px 0 0 #1A1A1A; }
+
+/* Mechanical press: shift on hover/active, scaled to the lighter shadows */
+.press {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.press:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 0 #1A1A1A;
+}
+.press:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 0 #1A1A1A;
+}
+
+.press-sm {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.press-sm:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 0 #1A1A1A;
+}
+.press-sm:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 0 #1A1A1A;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press, .press:hover, .press:active,
+  .press-sm, .press-sm:hover, .press-sm:active {
+    transition: none;
+    transform: none;
+  }
+}
