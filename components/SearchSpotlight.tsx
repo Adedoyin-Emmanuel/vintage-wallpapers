@@ -1,12 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, X, Hash, User, Tag, Calendar, Image as ImageIcon } from "lucide-react";
-import {
-  CATEGORIES,
-  WALLPAPERS,
-  previewUrl,
-  type Wallpaper,
-  type WallpaperCategory,
-} from "../data/wallpapers";
+import { Search, X, Image as ImageIcon } from "lucide-react";
+import { WALLPAPERS, previewUrl, type Wallpaper } from "../data/wallpapers";
 
 type Props = {
   open: boolean;
@@ -14,11 +8,6 @@ type Props = {
   /** Called when the user picks a wallpaper — host scrolls/highlights it. */
   onPick: (w: Wallpaper) => void;
 };
-
-/** Categories shown as suggestion chips when there's no query. */
-const SUGGESTED_CATEGORIES: WallpaperCategory[] = CATEGORIES.filter(
-  (c): c is WallpaperCategory => c !== "All"
-);
 
 /** Maximum results rendered at once — keeps the modal snappy. */
 const MAX_RESULTS = 60;
@@ -148,49 +137,6 @@ export function SearchSpotlight({ open, onClose, onPick }: Props) {
           </p>
         </div>
 
-        {/* Suggestion chips — only when the field is empty */}
-        {query.trim().length === 0 && (
-          <div className="px-4 pt-4 flex flex-wrap gap-2">
-            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/55 self-center mr-1">
-              Try:
-            </span>
-            {SUGGESTED_CATEGORIES.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => setQuery(c)}
-                className="cursor-pointer inline-flex items-center gap-1.5 border-[2.5px] border-border bg-background px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] hover:bg-mustard transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-mustard"
-              >
-                <Tag className="w-3 h-3" strokeWidth={2.5} />
-                {c}
-              </button>
-            ))}
-            <button
-              type="button"
-              onClick={() => setQuery("1984")}
-              className="cursor-pointer inline-flex items-center gap-1.5 border-[2.5px] border-border bg-background px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] hover:bg-mustard transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-mustard"
-            >
-              <Calendar className="w-3 h-3" strokeWidth={2.5} />
-              1984
-            </button>
-            <button
-              type="button"
-              onClick={() => setQuery("no. 042")}
-              className="cursor-pointer inline-flex items-center gap-1.5 border-[2.5px] border-border bg-background px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] hover:bg-mustard transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-mustard"
-            >
-              <Hash className="w-3 h-3" strokeWidth={2.5} />
-              No. 042
-            </button>
-            <button
-              type="button"
-              onClick={() => setQuery("Annie Spratt")}
-              className="cursor-pointer inline-flex items-center gap-1.5 border-[2.5px] border-border bg-background px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] hover:bg-mustard transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-mustard"
-            >
-              <User className="w-3 h-3" strokeWidth={2.5} />
-              Annie Spratt
-            </button>
-          </div>
-        )}
 
         {/* Results */}
         <div className="flex-1 overflow-y-auto px-4 py-4">

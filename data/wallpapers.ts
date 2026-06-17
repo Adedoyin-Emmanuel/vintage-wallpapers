@@ -10,7 +10,7 @@ export type WallpaperCategory =
 
 export type Wallpaper = {
   id: number;
-  /** Issue label, e.g. "No. 042" — used as the primary card heading. */
+  /** Issue label, e.g. "No. 042" — used as the primary card heading.*/
   label: string;
   /** Decade-style year stamp, e.g. "1984". */
   year: string;

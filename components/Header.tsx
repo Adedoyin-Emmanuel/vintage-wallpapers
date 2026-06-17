@@ -1,4 +1,5 @@
-import { Heart, Menu, Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Heart, Menu, Search, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 import { useFavorites } from "../lib/favorites";
@@ -10,6 +11,20 @@ type Props = {
 
 export function Header({ onOpenFavorites, onOpenSearch }: Props) {
   const { count } = useFavorites();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Auto-close the mobile menu if the viewport grows to md+ (768px).
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const mql = window.matchMedia("(min-width: 768px)");
+    const handle = (e: MediaQueryListEvent) => {
+      if (e.matches) setMobileMenuOpen(false);
+    };
+    mql.addEventListener("change", handle);
+    return () => mql.removeEventListener("change", handle);
+  }, [mobileMenuOpen]);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
     <header className="border-b-[3px] border-border bg-background sticky top-0 z-30">
@@ -96,13 +111,66 @@ export function Header({ onOpenFavorites, onOpenSearch }: Props) {
           </a>
           <button
             type="button"
-            aria-label="Open menu"
-            className="md:hidden cursor-pointer border-[3px] border-border bg-background p-2 shadow-brutal-sm press-sm"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            className="md:hidden cursor-pointer border-[3px] border-border bg-background p-2 shadow-brutal-sm press-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-mustard"
           >
-            <Menu className="w-4 h-4" strokeWidth={2.5} />
+            {mobileMenuOpen ? (
+              <X className="w-4 h-4" strokeWidth={2.5} />
+            ) : (
+              <Menu className="w-4 h-4" strokeWidth={2.5} />
+            )}
           </button>
         </div>
       </div>
+
+      {/* Mobile nav panel */}
+      {mobileMenuOpen && (
+        <nav
+          id="mobile-nav"
+          className="md:hidden border-t-[3px] border-border bg-background"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex flex-col font-mono text-[12px] font-medium uppercase tracking-[0.18em]">
+            <a
+              href="#gallery"
+              onClick={closeMobileMenu}
+              className="px-2 py-3 border-b-[2px] border-border/40 hover:bg-mustard transition-colors cursor-pointer"
+            >
+              Gallery
+            </a>
+            <a
+              href="#collections"
+              onClick={closeMobileMenu}
+              className="px-2 py-3 border-b-[2px] border-border/40 hover:bg-mustard transition-colors cursor-pointer"
+            >
+              Collections
+            </a>
+            <a
+              href="#archive"
+              onClick={closeMobileMenu}
+              className="px-2 py-3 border-b-[2px] border-border/40 hover:bg-mustard transition-colors cursor-pointer"
+            >
+              Archive
+            </a>
+            <Link
+              to="/about"
+              onClick={closeMobileMenu}
+              className="px-2 py-3 border-b-[2px] border-border/40 hover:bg-mustard transition-colors cursor-pointer"
+            >
+              About
+            </Link>
+            <a
+              href="#subscribe"
+              onClick={closeMobileMenu}
+              className="mt-3 mb-3 inline-flex items-center justify-center cursor-pointer border-[3px] border-border bg-foreground text-on-primary px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.18em] shadow-brutal-sm press-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-mustard"
+            >
+              Subscribe
+            </a>
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
